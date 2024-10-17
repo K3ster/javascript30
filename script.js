@@ -5,6 +5,7 @@
   const cw3 = document.getElementById("cw3");
   const answer = document.getElementById("answer");
   const loadingModal = document.getElementById("loading-modal");
+  const apiBaseUrl = "https://my-json-server.typicode.com/K3ster/javascript20";
 
   function showLoading() {
     loadingModal.style.display = "block";
@@ -113,10 +114,47 @@
       });
   });*/
 
-  cw2.addEventListener("click", function () {
-    //TODO
-  });
   cw3.addEventListener("click", function () {
+    showLoading();
+    fetch(`${apiBaseUrl}/posts`)
+      .then((response) => response.json())
+      .then((posts) => {
+        console.log("All posts:", posts);
+        answer.innerHTML = "";
+        posts.forEach((post) => {
+          const postElement = document.createElement("div");
+          postElement.classList.add("post");
+
+          const titleElement = document.createElement("h2");
+          titleElement.textContent = post.title;
+          postElement.appendChild(titleElement);
+
+          const bodyElement = document.createElement("p");
+          bodyElement.textContent = post.body;
+          postElement.appendChild(bodyElement);
+
+          answer.appendChild(postElement);
+
+          fetch(`${apiBaseUrl}/comments?postId=${post.id}`)
+            .then((response) => response.json())
+            .then((comments) => {
+              comments.forEach((comment) => {
+                const commentElement = document.createElement("p");
+                commentElement.textContent = `Comment: ${comment.body}`;
+                commentElement.style.marginLeft = "20px";
+                postElement.appendChild(commentElement);
+              });
+            });
+        });
+        hideLoading();
+      })
+      .catch((error) => {
+        console.error("Error fetching posts:", error);
+        answer.innerHTML = "Error loading posts.";
+        hideLoading();
+      });
+  });
+  cw2.addEventListener("click", function () {
     //TODO
   });
 })();
