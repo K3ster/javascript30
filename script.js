@@ -1,32 +1,12 @@
-const token = "VnDgecQmoYEfqneEqYkaeFUkaRyEzgwT";
+const apiKey = "MoagLlguAnOp4i6PnC22FBWKST7fHw9d";
 
-async function fetchClimateData() {
-  const datasetId = document.getElementById("datasetId").value;
-  const locationId = document.getElementById("locationId").value;
-  const startDate = document.getElementById("startDate").value;
-  const endDate = document.getElementById("endDate").value;
-
+async function fetchRandomGif() {
   const response = await fetch(
-    `https://www.ncei.noaa.gov/cdo-web/api/v2/data?datasetid=${datasetId}&locationid=${locationId}&startdate=${startDate}&enddate=${endDate}`,
-    {
-      headers: {
-        token: token,
-      },
-    },
+    `https://api.giphy.com/v1/gifs/random?api_key=${apiKey}&rating=g`,
   );
-
   const data = await response.json();
-  const climateDataTable = document
-    .getElementById("climateDataTable")
-    .getElementsByTagName("tbody")[0];
-  climateDataTable.innerHTML = ""; // Clear existing data
+  const gifUrl = data.data.images.original.url;
 
-  data.results.forEach((record) => {
-    const row = climateDataTable.insertRow();
-    row.insertCell(0).innerText = record.date;
-    row.insertCell(1).innerText = record.station;
-    row.insertCell(2).innerText = record.value;
-  });
+  const gifContainer = document.getElementById("gifContainer");
+  gifContainer.innerHTML = `<img src="${gifUrl}" alt="Random GIF">`;
 }
-
-// Fetch data on button click
