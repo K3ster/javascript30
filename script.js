@@ -1,8 +1,13 @@
 const token = "VnDgecQmoYEfqneEqYkaeFUkaRyEzgwT";
 
-async function fetchDatasets() {
+async function fetchClimateData() {
+  const datasetId = document.getElementById("datasetId").value;
+  const locationId = document.getElementById("locationId").value;
+  const startDate = document.getElementById("startDate").value;
+  const endDate = document.getElementById("endDate").value;
+
   const response = await fetch(
-    "https://www.ncei.noaa.gov/cdo-web/api/v2/datasets",
+    `https://www.ncei.noaa.gov/cdo-web/api/v2/data?datasetid=${datasetId}&locationid=${locationId}&startdate=${startDate}&enddate=${endDate}`,
     {
       headers: {
         token: token,
@@ -11,20 +16,17 @@ async function fetchDatasets() {
   );
 
   const data = await response.json();
-  const datasetsTable = document
-    .getElementById("datasetsTable")
+  const climateDataTable = document
+    .getElementById("climateDataTable")
     .getElementsByTagName("tbody")[0];
-  datasetsTable.innerHTML = ""; // Clear existing data
+  climateDataTable.innerHTML = ""; // Clear existing data
 
-  data.results.forEach((dataset) => {
-    const row = datasetsTable.insertRow();
-    row.insertCell(0).innerText = dataset.id;
-    row.insertCell(1).innerText = dataset.name;
-    row.insertCell(2).innerText = dataset.datacoverage;
-    row.insertCell(3).innerText = dataset.mindate;
-    row.insertCell(4).innerText = dataset.maxdate;
+  data.results.forEach((record) => {
+    const row = climateDataTable.insertRow();
+    row.insertCell(0).innerText = record.date;
+    row.insertCell(1).innerText = record.station;
+    row.insertCell(2).innerText = record.value;
   });
 }
 
-// Fetch the datasets data when the page loads
-window.onload = fetchDatasets;
+// Fetch data on button click

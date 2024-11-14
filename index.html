@@ -3,19 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NOAA Datasets</title>
+    <title>NOAA Climate Data</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h1>NOAA Climate Datasets</h1>
-    <table id="datasetsTable">
+    <h1>NOAA Climate Data</h1>
+    <input type="text" id="datasetId" placeholder="Enter Dataset ID" />
+    <input type="text" id="locationId" placeholder="Enter Location ID" />
+    <input type="date" id="startDate" placeholder="Enter Start Date" />
+    <input type="date" id="endDate" placeholder="Enter End Date" />
+    <button onclick="fetchClimateData()">Fetch Data</button>
+    <table id="climateDataTable">
       <thead>
         <tr>
-          <th>Dataset ID</th>
-          <th>Name</th>
-          <th>Data Coverage</th>
-          <th>Min Date</th>
-          <th>Max Date</th>
+          <th>Date</th>
+          <th>Station ID</th>
+          <th>Value</th>
         </tr>
       </thead>
       <tbody></tbody>
