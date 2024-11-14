@@ -1,8 +1,8 @@
 const token = "VnDgecQmoYEfqneEqYkaeFUkaRyEzgwT";
 
-async function fetchStations() {
+async function fetchDatasets() {
   const response = await fetch(
-    "https://www.ncei.noaa.gov/cdo-web/api/v2/stations",
+    "https://www.ncei.noaa.gov/cdo-web/api/v2/datasets",
     {
       headers: {
         token: token,
@@ -11,20 +11,20 @@ async function fetchStations() {
   );
 
   const data = await response.json();
-  const stationsTable = document
-    .getElementById("stationsTable")
+  const datasetsTable = document
+    .getElementById("datasetsTable")
     .getElementsByTagName("tbody")[0];
-  stationsTable.innerHTML = ""; // Clear existing data
+  datasetsTable.innerHTML = ""; // Clear existing data
 
-  data.results.forEach((station) => {
-    const row = stationsTable.insertRow();
-    row.insertCell(0).innerText = station.id;
-    row.insertCell(1).innerText = station.name;
-    row.insertCell(2).innerText = station.state;
-    row.insertCell(3).innerText = station.latitude;
-    row.insertCell(4).innerText = station.longitude;
+  data.results.forEach((dataset) => {
+    const row = datasetsTable.insertRow();
+    row.insertCell(0).innerText = dataset.id;
+    row.insertCell(1).innerText = dataset.name;
+    row.insertCell(2).innerText = dataset.datacoverage;
+    row.insertCell(3).innerText = dataset.mindate;
+    row.insertCell(4).innerText = dataset.maxdate;
   });
 }
 
-// Fetch the stations data when the page loads
-window.onload = fetchStations;
+// Fetch the datasets data when the page loads
+window.onload = fetchDatasets;
