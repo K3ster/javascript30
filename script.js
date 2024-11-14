@@ -1,160 +1,21 @@
-(function () {
-  const example = document.getElementById("example");
-  const cw1 = document.getElementById("cw1");
-  const cw2 = document.getElementById("cw2");
-  const cw3 = document.getElementById("cw3");
-  const answer = document.getElementById("answer");
-  const loadingModal = document.getElementById("loading-modal");
-  const apiBaseUrl = "https://my-json-server.typicode.com/K3ster/javascript20";
+async function fetchCountryData() {
+  const capital = document.getElementById("capitalInput").value;
+  const response = await fetch(
+    `https://restcountries.com/v3.1/capital/${capital}`,
+  );
+  const data = await response.json();
 
-  function showLoading() {
-    loadingModal.style.display = "block";
-  }
+  const countryTable = document
+    .getElementById("countryTable")
+    .getElementsByTagName("tbody")[0];
+  countryTable.innerHTML = ""; // Clear existing data
 
-  function hideLoading() {
-    setTimeout(() => {
-      loadingModal.style.display = "none";
-    }, 1000); // 1-second delay
-  }
-
-  example.addEventListener("click", function () {
-    showLoading();
-    fetch("https://jsonplaceholder.typicode.com/posts")
-      .then((response) => response.json())
-      .then((array) => {
-        console.log(array);
-        answer.innerHTML = JSON.stringify(array);
-      });
-    hideLoading();
+  data.forEach((country) => {
+    const row = countryTable.insertRow();
+    row.insertCell(0).innerText = country.name.common;
+    row.insertCell(1).innerText = country.capital[0];
+    row.insertCell(2).innerText = country.population;
+    row.insertCell(3).innerText = country.region;
+    row.insertCell(4).innerText = country.subregion;
   });
-  //2_1.2
-
-  cw1.addEventListener("click", function () {
-    showLoading();
-    answer.innerHTML = "Loading...";
-    fetch("https://jsonplaceholder.typicode.com/posts")
-      .then((response) => response.json())
-      .then((posts) => {
-        console.log("All posts:", posts);
-        answer.innerHTML = "";
-        posts.forEach((post) => {
-          const postElement = document.createElement("div");
-          postElement.classList.add("post");
-
-          const titleElement = document.createElement("h2");
-          titleElement.textContent = post.title;
-          postElement.appendChild(titleElement);
-
-          const bodyElement = document.createElement("p");
-          bodyElement.textContent = post.body;
-          postElement.appendChild(bodyElement);
-
-          answer.appendChild(postElement);
-        });
-        hideLoading();
-      })
-      .catch((error) => console.error("Error fetching posts:", error));
-  });
-
-  /*
-  // 2_1.3
-  cw1.addEventListener("click", function () {
-    showLoading();
-    answer.innerHTML = "Loading...";
-    fetch("https://jsonplaceholder.typicode.com/posts/1")
-      .then((response) => response.json())
-      .then((post) => {
-        console.log('Single post:', post);
-        answer.innerHTML = `Wyświetlono post o ID = ${post.id}`;
-
-        const postElement = document.createElement("div");
-        postElement.classList.add("post");
-
-        const titleElement = document.createElement("h2");
-        titleElement.textContent = post.title;
-        postElement.appendChild(titleElement);
-
-        const bodyElement = document.createElement("p");
-        bodyElement.textContent = post.body;
-        postElement.appendChild(bodyElement);
-
-        answer.appendChild(postElement);
-      })
-      hideLoading();
-      .catch((error) => {
-        console.error("Error fetching post:", error);
-        answer.innerHTML = "Error loading post.";
-      });
-  });
-*/
-  //2_1.4
-  /*cw1.addEventListener("click", function () {
-    showLoading();
-    answer.innerHTML = "Processing...";
-    fetch("https://jsonplaceholder.typicode.com/posts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: "foo",
-        body: "bar",
-        userId: 1,
-      }),
-    })
-      .then((response) => response.json())
-      .then((post) => {
-        console.log('Created post:', post);
-        answer.innerHTML = `Dodano nowy post o ID = ${post.id}`;
-      })
-      hideLoading();
-      .catch((error) => {
-        console.error("Error creating post:", error);
-        answer.innerHTML = "Error creating post.";
-      });
-  });*/
-
-  cw3.addEventListener("click", function () {
-    showLoading();
-    fetch(`${apiBaseUrl}/posts`)
-      .then((response) => response.json())
-      .then((posts) => {
-        console.log("All posts:", posts);
-        answer.innerHTML = "";
-        posts.forEach((post) => {
-          const postElement = document.createElement("div");
-          postElement.classList.add("post");
-
-          const titleElement = document.createElement("h2");
-          titleElement.textContent = post.title;
-          postElement.appendChild(titleElement);
-
-          const bodyElement = document.createElement("p");
-          bodyElement.textContent = post.body;
-          postElement.appendChild(bodyElement);
-
-          answer.appendChild(postElement);
-
-          fetch(`${apiBaseUrl}/comments?postId=${post.id}`)
-            .then((response) => response.json())
-            .then((comments) => {
-              comments.forEach((comment) => {
-                const commentElement = document.createElement("p");
-                commentElement.textContent = `Comment: ${comment.body}`;
-                commentElement.style.marginLeft = "20px";
-                postElement.appendChild(commentElement);
-              });
-            });
-        });
-        hideLoading();
-      })
-      .catch((error) => {
-        console.error("Error fetching posts:", error);
-        answer.innerHTML = "Error loading posts.";
-        hideLoading();
-      });
-  });
-  cw2.addEventListener("click", function () {
-    //TODO
-  });
-})();
+}

@@ -1,24 +1,27 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>repl.it</title>
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Country Info</title>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div>
-      <button id="example">example</button>
-      <button id="cw1">cw1</button>
-      <button id="cw2">cw2</button>
-      <button id="cw3">cw3</button>
-    </div>
-    <div id="answer"></div>
-    <div id="loading-modal">
-      <div id="loading-modal-content">
-        <p>Loading...</p>
-      </div>
-    </div>
+    <h1>Search for a Country by Capital</h1>
+    <input type="text" id="capitalInput" placeholder="Enter Capital City" />
+    <button onclick="fetchCountryData()">Search</button>
+    <table id="countryTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Capital</th>
+          <th>Population</th>
+          <th>Region</th>
+          <th>Subregion</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
     <script src="script.js"></script>
   </body>
 </html>
