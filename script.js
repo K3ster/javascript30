@@ -1,21 +1,30 @@
-async function fetchCountryData() {
-  const capital = document.getElementById("capitalInput").value;
+const token = "VnDgecQmoYEfqneEqYkaeFUkaRyEzgwT";
+
+async function fetchStations() {
   const response = await fetch(
-    `https://restcountries.com/v3.1/capital/${capital}`,
+    "https://www.ncei.noaa.gov/cdo-web/api/v2/stations",
+    {
+      headers: {
+        token: token,
+      },
+    },
   );
+
   const data = await response.json();
-
-  const countryTable = document
-    .getElementById("countryTable")
+  const stationsTable = document
+    .getElementById("stationsTable")
     .getElementsByTagName("tbody")[0];
-  countryTable.innerHTML = ""; // Clear existing data
+  stationsTable.innerHTML = ""; // Clear existing data
 
-  data.forEach((country) => {
-    const row = countryTable.insertRow();
-    row.insertCell(0).innerText = country.name.common;
-    row.insertCell(1).innerText = country.capital[0];
-    row.insertCell(2).innerText = country.population;
-    row.insertCell(3).innerText = country.region;
-    row.insertCell(4).innerText = country.subregion;
+  data.results.forEach((station) => {
+    const row = stationsTable.insertRow();
+    row.insertCell(0).innerText = station.id;
+    row.insertCell(1).innerText = station.name;
+    row.insertCell(2).innerText = station.state;
+    row.insertCell(3).innerText = station.latitude;
+    row.insertCell(4).innerText = station.longitude;
   });
 }
+
+// Fetch the stations data when the page loads
+window.onload = fetchStations;

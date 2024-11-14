@@ -3,21 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Country Info</title>
+    <title>NOAA Stations</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h1>Search for a Country by Capital</h1>
-    <input type="text" id="capitalInput" placeholder="Enter Capital City" />
-    <button onclick="fetchCountryData()">Search</button>
-    <table id="countryTable">
+    <h1>NOAA Climate Stations</h1>
+    <table id="stationsTable">
       <thead>
         <tr>
+          <th>Station ID</th>
           <th>Name</th>
-          <th>Capital</th>
-          <th>Population</th>
-          <th>Region</th>
-          <th>Subregion</th>
+          <th>State</th>
+          <th>Latitude</th>
+          <th>Longitude</th>
         </tr>
       </thead>
       <tbody></tbody>
